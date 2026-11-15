@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Scroll Studio — the words you scroll past turn into the world they describe</title>
+<meta name="description" content="Write a plain-English brief. Scroll Studio turns it into a cinematic, scroll-driven website.">
+<meta name="theme-color" content="#0a0807">
+<style>
+:root{
+  --bg:#0a0807; --bg2:#120d0b; --ink:#efe7df; --mute:#a3978c; --line:rgba(239,231,223,.13);
+  --ember:#e8502e; --ember-hi:#ff7a4d; --ember-lo:#8e2a14;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font:400 clamp(16px,.35vw + 15px,18px)/1.6 var(--sans);overflow-x:clip;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.label{font:500 .72rem/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--mute)}
+.label b{color:var(--ember);font-weight:500}
+h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:-.02em;line-height:1.05}
+em{font-style:italic;color:var(--ember-hi)}
+:focus-visible{outline:2px solid var(--ember-hi);outline-offset:4px}
+
+.grain{position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.08;mix-blend-mode:overlay;
+ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+
+/* nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;
+ padding:max(16px,env(safe-area-inset-top)) clamp(18px,4vw,48px) 16px;
+ background:linear-gradient(to bottom,rgba(10,8,7,.85),rgba(10,8,7,0))}
+.mark{font:500 .8rem/1 var(--mono);letter-spacing:.22em;text-transform:uppercase;text-decoration:none}
+.mark i{display:inline-block;width:.55em;height:.55em;background:var(--ember);border-radius:50%;margin-right:.7em;box-shadow:0 0 12px var(--ember)}
+.cta{display:inline-flex;align-items:center;gap:.6em;background:var(--ember);color:#1a0805;text-decoration:none;font:600 .95rem/1 var(--sans);
+ padding:.95em 1.5em;border-radius:999px;border:0;cursor:pointer;transition:transform .25s,box-shadow .25s,background .25s;min-height:44px}
+.cta:hover{background:var(--ember-hi);box-shadow:0 0 34px rgba(232,80,46,.45);transform:translateY(-1px)}
+.cta.sm{padding:.7em 1.15em;font-size:.82rem}
+.cta svg{width:1em;height:1em}
+
+section{position:relative}
+.wrap{width:min(1180px,100% - clamp(36px,8vw,96px));margin-inline:auto}
+
+/* ACT 1 — arrival (quiet) */
+.act1{min-height:100vh;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;isolation:isolate}
+.layers{position:absolute;inset:-6%;z-index:-1;animation:drift 26s ease-in-out infinite alternate}
+@keyframes drift{from{transform:translate3d(-1%,0,0) scale(1.02)}to{transform:translate3d(1%,-1%,0) scale(1.06)}}
+.layer{position:absolute;inset:0;will-change:transform}
+.l-back{background:radial-gradient(90% 70% at 70% 30%,#241210 0%,#0d0807 60%,#070504 100%)}
+.l-lamp{background:radial-gradient(40% 50% at 72% 46%,rgba(255,150,90,.34),rgba(232,80,46,.12) 45%,transparent 70%)}
+.l-desk{top:52%;background:linear-gradient(to bottom,#1a110d 0%,#0c0807 40%,#070504 100%);
+ border-top:1px solid rgba(255,170,120,.08);
+ box-shadow:inset 0 40px 80px -30px rgba(232,80,46,.18)}
+.l-desk::after{content:"";position:absolute;inset:0;opacity:.25;
+ background:repeating-linear-gradient(100deg,transparent 0 38px,rgba(255,200,160,.05) 38px 39px)}
+.l-page{display:grid;place-items:center end;padding-right:4vw;perspective:1200px}
+.sheet{width:min(28vw,360px);min-width:210px;aspect-ratio:3/4;margin:16vh 0 0 0;transform:rotateX(52deg) rotateZ(-9deg);transform-origin:50% 100%;
+ background:linear-gradient(160deg,#fff1e2 0%,#f3d9bf 55%,#d9a984 100%);border-radius:3px;padding:12% 11%;
+ box-shadow:0 0 90px 10px rgba(255,150,90,.35),0 40px 60px rgba(0,0,0,.7);display:flex;flex-direction:column;gap:5.5%}
+.sheet i{display:block;height:2.6%;border-radius:2px;background:rgba(40,20,12,.55)}
+.sheet i:nth-child(1){width:46%;height:4%;background:var(--ember)}
+.sheet i:nth-child(2){width:92%}.sheet i:nth-child(3){width:84%}.sheet i:nth-child(4){width:90%}
+.sheet i:nth-child(5){width:58%}.sheet i:nth-child(6){width:0}.sheet i:nth-child(7){width:78%}.sheet i:nth-child(8){width:40%}
+.l-dust span{position:absolute;width:3px;height:3px;border-radius:50%;background:rgba(255,190,140,.8);filter:blur(.4px);animation:float 14s linear infinite}
+@keyframes float{from{transform:translateY(0);opacity:0}15%{opacity:.8}to{transform:translateY(-40vh) translateX(20px);opacity:0}}
+.hero{padding:0 0 clamp(48px,11vh,110px);position:relative}
+.hero .label{margin-bottom:1.6rem;display:block}
+.hero h1{font-size:clamp(2.5rem,7.6vw,6.6rem);max-width:12.5em}
+.hero p{max-width:34em;color:var(--mute);margin:1.6rem 0 2.2rem;font-size:clamp(1rem,1.2vw + .6rem,1.25rem)}
+.scrollcue{position:absolute;right:0;bottom:clamp(48px,11vh,110px);display:flex;align-items:center;gap:.9rem;writing-mode:vertical-rl}
+.scrollcue::after{content:"";width:1px;height:70px;background:linear-gradient(var(--ember),transparent)}
+
+/* ACT 2 — the brief (quiet) */
+.act2{min-height:140vh;min-height:140svh;display:grid;align-items:center;padding:16vh 0;background:linear-gradient(var(--bg),var(--bg2) 50%,var(--bg))}
+.brief{max-width:880px;margin-inline:auto}
+.brief .label{display:block;margin-bottom:2rem}
+.typed{font:400 clamp(1.25rem,2.9vw,2.25rem)/1.5 var(--serif);min-height:11em}
+.caret{display:inline-block;width:.09em;height:1em;background:var(--ember);vertical-align:-.12em;margin-left:.08em;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.brief small{display:block;margin-top:2.4rem;color:var(--mute);opacity:0;transition:opacity 1.2s}
+.brief.done small{opacity:1}
+
+/* ACT 3 — the world appears (PEAK, longest span) */
+.act3{height:520vh}
+.stick{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:#070504}
+#world,#clip{position:absolute;inset:0;width:100%;height:100%;display:block}
+#clip{object-fit:cover;opacity:0;pointer-events:none}
+.act3 .vig{position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 50%,transparent 55%,rgba(0,0,0,.55));pointer-events:none}
+.caps{position:absolute;left:0;right:0;bottom:clamp(36px,9vh,90px);text-align:center;padding:0 24px;pointer-events:none}
+.caps p{position:absolute;left:0;right:0;opacity:0;transform:translateY(8px);transition:opacity .6s,transform .6s;font:italic 400 clamp(1.1rem,2.2vw,1.7rem)/1.3 var(--serif);text-shadow:0 2px 24px rgba(0,0,0,.8)}
+.caps p.on{opacity:1;transform:none}
+.act3 .top{position:absolute;top:calc(max(16px,env(safe-area-inset-top)) + 64px);left:clamp(18px,4vw,48px)}
+
+/* ACT 4 — the craft (quieter) */
+.craft{height:320vh;background:var(--bg)}
+.craft .stick{background:var(--bg);display:flex;flex-direction:column;justify-content:center;gap:clamp(20px,4vh,44px)}
+.craft header{padding:0 clamp(18px,4vw,48px)}
+.craft h2{font-size:clamp(1.8rem,4.4vw,3.6rem);margin-top:1rem;max-width:14em;color:#d9cfc6}
+.track{display:flex;gap:clamp(16px,2.4vw,36px);padding:0 clamp(18px,4vw,48px);will-change:transform;width:max-content}
+.panel{width:min(62vw,720px);flex:none}
+.macro{position:relative;height:clamp(200px,40vh,420px);border:1px solid var(--line);border-radius:4px;overflow:hidden;background:#0d0908}
+.panel h3{font-size:1.35rem;margin:1rem 0 .35rem}
+.panel p{color:var(--mute);max-width:30em;font-size:.95rem}
+.m-type span{position:absolute;left:-2%;bottom:-24%;font:italic 400 clamp(12rem,34vw,26rem)/1 var(--serif);color:#e7dccf;letter-spacing:-.06em}
+.m-type::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(to bottom,transparent 0 47px,rgba(232,80,46,.35) 47px 48px)}
+.m-light{background:radial-gradient(60% 80% at 18% 30%,rgba(255,120,70,.8),rgba(232,80,46,.25) 40%,transparent 70%),radial-gradient(40% 50% at 85% 90%,rgba(255,190,140,.25),transparent 70%),#0b0706}
+.m-light::after{content:"";position:absolute;left:0;right:0;top:62%;height:1px;background:linear-gradient(90deg,transparent,var(--ember-hi),transparent)}
+.m-motion svg{position:absolute;inset:0;width:100%;height:100%}
+.m-rest{display:grid;place-items:center}
+.m-rest i{width:14px;height:14px;background:var(--ember);box-shadow:0 0 30px var(--ember)}
+.m-rest::before{content:"";position:absolute;left:12%;right:12%;bottom:18%;height:1px;background:var(--line)}
+
+/* ACT 5 — range */
+.act5{padding:clamp(80px,16vh,170px) 0;background:linear-gradient(var(--bg),var(--bg2))}
+.act5 h2{font-size:clamp(2rem,5.4vw,4.6rem);margin:1.2rem 0 1rem}
+.act5 .lede{color:var(--mute);max-width:38em;margin-bottom:clamp(32px,6vh,64px)}
+.worlds{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,2vw,28px)}
+.world{opacity:0;transform:translateY(30px);transition:opacity .9s,transform .9s cubic-bezier(.2,.7,.2,1)}
+.world.in{opacity:1;transform:none}
+.world:nth-child(2){transition-delay:.12s}.world:nth-child(3){transition-delay:.24s}
+.world canvas{display:block;width:100%;aspect-ratio:4/5;border-radius:4px;border:1px solid var(--line);transition:transform .5s,box-shadow .5s}
+.world:hover canvas{transform:translateY(-6px);box-shadow:0 24px 60px rgba(0,0,0,.6)}
+.world h3{font-size:1.35rem;margin:1rem 0 .2rem}
+.world p{color:var(--mute);font-size:.92rem}
+
+/* ACT 6 — start (quiet) */
+.act6{min-height:100vh;min-height:100svh;display:grid;place-items:center;text-align:center;overflow:hidden;isolation:isolate;padding:14vh 0 10vh}
+.act6::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(50% 55% at 50% 62%,rgba(232,80,46,.22),transparent 70%),#070504}
+.door{width:clamp(110px,16vw,190px);margin:0 auto 3rem;display:block;filter:drop-shadow(0 0 50px rgba(232,80,46,.5))}
+.act6 h2{font-size:clamp(2.4rem,7vw,5.6rem);margin-bottom:1.2rem}
+.act6 p{color:var(--mute);max-width:30em;margin:0 auto 2.4rem}
+footer{position:absolute;bottom:max(20px,env(safe-area-inset-bottom));left:0;right:0;text-align:center}
+
+/* responsive */
+@media (max-width:860px){
+  .worlds{grid-template-columns:1fr;max-width:420px;margin-inline:auto}
+  .panel{width:78vw}
+  .l-page{place-items:start end;padding:12vh 4vw 0 0}
+  .sheet{margin:0;width:44vw;opacity:.5}
+  .scrollcue{display:none}
+  .hero h1{max-width:9em}
+}
+@media (max-width:520px){
+  .cta.sm{padding:.6em .95em}
+  .act3{height:460vh}
+  .m-type span{font-size:11rem}
+}
+@media (max-height:520px) and (orientation:landscape){
+  .hero h1{font-size:clamp(2rem,6vw,3.4rem)}
+  .act1,.act6{min-height:130vh}
+}
+
+/* reduced motion: no pinning, no drift, no scrub */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .layers,.l-dust span{animation:none}
+  .world{opacity:1;transform:none;transition:none}
+  .act3{height:auto}
+  .act3 .stick,.craft .stick{position:relative}
+  .act3 .stick{height:100svh}
+  .craft{height:auto;padding:clamp(60px,12vh,120px) 0}
+  .craft .stick{height:auto}
+  .track{width:auto;flex-wrap:wrap;transform:none!important}
+  .panel{width:min(100%,480px)}
+  .caret{animation:none}
+}
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<nav>
+  <a class="mark" href="#arrival" aria-label="Scroll Studio, top of page"><i></i>Scroll Studio</a>
+  <a class="cta sm" href="#start">Start a build</a>
+</nav>
+
+<main>
+<!-- 1 ARRIVAL -->
+<section class="act1" id="arrival">
+  <div class="layers" aria-hidden="true">
+    <div class="layer l-back" data-depth="0.15"></div>
+    <div class="layer l-lamp" data-depth="0.4"></div>
+    <div class="layer l-desk" data-depth="0.7"></div>
+    <div class="layer l-page" data-depth="1.1"><div class="sheet"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+    <div class="layer l-dust" data-depth="1.8" id="dust"></div>
+  </div>
+  <div class="wrap hero">
+    <span class="label"><b>01</b> &nbsp;Arrival</span>
+    <h1>Write the brief.<br>Scroll into the <em>world it describes.</em></h1>
+    <p>Scroll Studio is an AI agent that turns a few plain sentences into a cinematic, scroll-driven website.</p>
+    <a class="cta" href="#start">Start a build <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+    <span class="scrollcue label" aria-hidden="true">Scroll</span>
+  </div>
+</section>
+
+<!-- 2 THE BRIEF -->
+<section class="act2" id="brief">
+  <div class="wrap">
+    <div class="brief" id="briefBox">
+      <span class="label"><b>02</b> &nbsp;The brief</span>
+      <p class="typed" id="typed" aria-label="A small coastal bakery. First light, before the shop opens. Show the flour in the air, the heat of the oven, the first loaf coming out. Warm, unhurried, a little cinematic. Nothing that looks like a template."><span id="typedText" aria-hidden="true"></span><span class="caret" aria-hidden="true"></span></p>
+      <small class="label">Plain English. Your own words. Keep scrolling.</small>
+    </div>
+  </div>
+</section>
+
+<!-- 3 THE WORLD APPEARS (peak) -->
+<section class="act3" id="world-appears" aria-label="The brief's words turn into the scene they describe">
+  <div class="stick">
+    <canvas id="world" role="img" aria-label="The words of the brief dissolve into a dawn landscape over a small coastal bakery."></canvas>
+    <video id="clip" muted playsinline preload="auto" aria-hidden="true"></video>
+    <div class="vig"></div>
+    <span class="label top"><b>03</b> &nbsp;The world appears</span>
+    <div class="caps" aria-hidden="true">
+      <p data-c="0" class="on">This is your brief.</p>
+      <p data-c="1">Watch it leave the page.</p>
+      <p data-c="2">Now it is the world it described.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 4 THE CRAFT -->
+<section class="craft" id="craft">
+  <div class="stick">
+    <header><span class="label"><b>04</b> &nbsp;The craft</span><h2>Quiet details, in the right place.</h2></header>
+    <div class="track" id="track">
+      <figure class="panel"><div class="macro m-type" aria-hidden="true"><span>Aa</span></div><h3>Type with a voice</h3><p>Every line of type is chosen, not defaulted. One serif voice for headlines, a calm sans for the rest.</p></figure>
+      <figure class="panel"><div class="macro m-light" aria-hidden="true"></div><h3>Light with a direction</h3><p>Glow, grain and shadow that tell the eye where to look and what matters.</p></figure>
+      <figure class="panel"><div class="macro m-motion" aria-hidden="true">
+        <svg viewBox="0 0 400 220" preserveAspectRatio="xMidYMid slice"><g stroke="rgba(239,231,223,.12)"><path d="M40 30V190M40 190H370"/></g><path d="M40 190C150 190 150 30 370 30" fill="none" stroke="#ff7a4d" stroke-width="2"/><circle cx="40" cy="190" r="5" fill="#e8502e"/><circle cx="205" cy="110" r="5" fill="#e8502e"/><circle cx="370" cy="30" r="5" fill="#e8502e"/></svg></div><h3>Motion with a reason</h3><p>Easing that feels like a hand, not a template. Nothing moves unless it means something.</p></figure>
+      <figure class="panel"><div class="macro m-rest" aria-hidden="true"><i></i></div><h3>Room to breathe</h3><p>Quiet sections on purpose, so the loud ones land.</p></figure>
+    </div>
+  </div>
+</section>
+
+<!-- 5 RANGE -->
+<section class="act5" id="range">
+  <div class="wrap">
+    <span class="label"><b>05</b> &nbsp;Range</span>
+    <h2>One brief. <em>Three worlds.</em></h2>
+    <p class="lede">The same few sentences, rendered three different ways. Same words, different light, different place.</p>
+    <div class="worlds">
+      <figure class="world"><canvas data-w="0" role="img" aria-label="First light: a warm ember dawn over ridges and a small lit building"></canvas><h3>First light</h3><p>Ember sky, low sun, a lit window.</p></figure>
+      <figure class="world"><canvas data-w="1" role="img" aria-label="Salt noon: cool blue sky and pale ridges"></canvas><h3>Salt noon</h3><p>Cool air, pale sky, bright and clean.</p></figure>
+      <figure class="world"><canvas data-w="2" role="img" aria-label="Night shift: violet sky fading to a warm horizon"></canvas><h3>Night shift</h3><p>Violet dark with a warm line on the horizon.</p></figure>
+    </div>
+  </div>
+</section>
+
+<!-- 6 START -->
+<section class="act6" id="start">
+  <div class="wrap">
+    <svg class="door" viewBox="0 0 120 220" aria-hidden="true"><defs><linearGradient id="dg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff9a6a"/><stop offset="1" stop-color="#e8502e"/></linearGradient></defs><path d="M10 216V70C10 30 35 6 60 6s50 24 50 64v146z" fill="#0a0605" stroke="rgba(239,231,223,.25)" stroke-width="2"/><path d="M26 216V74C26 42 42 22 60 22s34 20 34 52v142z" fill="url(#dg)" opacity=".92"/></svg>
+    <h2>Bring the brief.</h2>
+    <p>A written brief can become a premium site without a design team.</p>
+    <!-- TODO: point this at your real sign-up or contact URL -->
+    <a class="cta" href="#start" data-cta>Start a build <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+  </div>
+  <footer class="label">Scroll Studio</footer>
+</section>
+</main>
+
+<script>
+(()=>{
+"use strict";
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
+const lerp=(a,b,t)=>a+(b-a)*t;
+const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const rng=s=>()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+
+/* ---------- the three worlds (code-drawn; swap for generated stills later) ---------- */
+const WORLDS=[
+ {sky:['#140807','#4a1a10','#c9421f','#ffb070'],sun:'255,222,170',sx:.64,sy:.60,ridge:['#3b1812','#2a110d','#1a0a08','#0b0504'],win:'#ffd08a',fog:'255,150,90',seed:7,hx:.2},
+ {sky:['#08121f','#164060','#4f9bbd','#d3eef3'],sun:'240,250,255',sx:.3,sy:.36,ridge:['#2a5772','#1f4358','#142e3e','#0a1a25'],win:'#ffe2a8',fog:'190,225,235',seed:21,hx:.7},
+ {sky:['#050309','#1a0d2b','#6b2a5c','#f2a07a'],sun:'255,190,150',sx:.78,sy:.7,ridge:['#2a1230','#1c0b22','#12061a','#08030c'],win:'#ffc477',fog:'160,80,120',seed:33,hx:.4}
+];
+function drawScene(ctx,w,h,W){
+  const r=rng(W.seed);
+  let g=ctx.createLinearGradient(0,0,0,h*.82);
+  W.sky.forEach((c,i)=>g.addColorStop(i/(W.sky.length-1),c));
+  ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+  const sx=w*W.sx,sy=h*W.sy;
+  g=ctx.createRadialGradient(sx,sy,0,sx,sy,Math.max(w,h)*.55);
+  g.addColorStop(0,`rgba(${W.sun},.9)`);g.addColorStop(.12,`rgba(${W.sun},.35)`);g.addColorStop(1,`rgba(${W.sun},0)`);
+  ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+  ctx.fillStyle=`rgb(${W.sun})`;ctx.beginPath();ctx.arc(sx,sy,h*.04,0,7);ctx.fill();
+  const base=[.62,.7,.79,.9];
+  W.ridge.forEach((col,i)=>{
+    const by=h*base[i],amp=h*(.07-i*.012),f1=1.2+r()*1.4,f2=3+r()*3,ph=r()*6;
+    const yAt=x=>{const t=x/w;return by+Math.sin(t*f1*Math.PI+ph)*amp+Math.sin(t*f2*Math.PI+ph*2)*amp*.35};
+    ctx.beginPath();ctx.moveTo(0,h);
+    for(let x=0;x<=w;x+=4)ctx.lineTo(x,yAt(x));
+    ctx.lineTo(w,h);ctx.closePath();ctx.fillStyle=col;ctx.fill();
+    if(i===2){ // the small lit building
+      const hx=w*W.hx,hy=yAt(hx),bw=h*.07,bh=h*.045;
+      ctx.fillStyle='#0a0504';ctx.fillRect(hx-bw/2,hy-bh,bw,bh+2);
+      ctx.beginPath();ctx.moveTo(hx-bw*.62,hy-bh);ctx.lineTo(hx,hy-bh-bh*.75);ctx.lineTo(hx+bw*.62,hy-bh);ctx.fill();
+      const gg=ctx.createRadialGradient(hx,hy-bh*.5,0,hx,hy-bh*.5,bh*3);
+      gg.addColorStop(0,'rgba(255,200,130,.55)');gg.addColorStop(1,'rgba(255,200,130,0)');
+      ctx.fillStyle=gg;ctx.fillRect(hx-bh*3,hy-bh*3.5,bh*6,bh*6);
+      ctx.fillStyle=W.win;ctx.fillRect(hx-bw*.14,hy-bh*.72,bw*.28,bh*.42);
+    }
+    const fg=ctx.createLinearGradient(0,by-amp*1.6,0,by+amp*2);
+    fg.addColorStop(0,`rgba(${W.fog},0)`);fg.addColorStop(.5,`rgba(${W.fog},${.15-i*.03})`);fg.addColorStop(1,`rgba(${W.fog},0)`);
+    ctx.fillStyle=fg;ctx.fillRect(0,by-amp*1.6,w,amp*3.6);
+  });
+  for(let i=0;i<170;i++){ // flour in the air
+    ctx.fillStyle=`rgba(255,235,210,${.08+r()*.4})`;
+    ctx.beginPath();ctx.arc(w*(.25+r()*.7),h*(.2+r()*.6),(.6+r()*1.8)*(h/700),0,7);ctx.fill();
+  }
+  g=ctx.createRadialGradient(w/2,h/2,Math.min(w,h)*.3,w/2,h/2,Math.max(w,h)*.75);
+  g.addColorStop(0,'rgba(0,0,0,0)');g.addColorStop(1,'rgba(0,0,0,.55)');
+  ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+}
+
+/* ---------- act 1: depth drift + dust ---------- */
+const dust=$('#dust');
+for(let i=0;i<22;i++){const s=document.createElement('span');const r=Math.random();
+  s.style.cssText=`left:${(Math.random()*100).toFixed(1)}%;top:${(45+Math.random()*55).toFixed(1)}%;animation-delay:${(-Math.random()*14).toFixed(1)}s;animation-duration:${(10+Math.random()*10).toFixed(1)}s;opacity:0;transform:scale(${(.6+r).toFixed(2)})`;
+  dust.appendChild(s);}
+const depthEls=$$('.layer[data-depth]');
+let px=0,py=0,tpx=0,tpy=0;
+addEventListener('pointermove',e=>{tpx=e.clientX/innerWidth-.5;tpy=e.clientY/innerHeight-.5},{passive:true});
+
+/* ---------- act 2: typed brief ---------- */
+const BRIEF="A small coastal bakery. First light, before the shop opens. Show the flour in the air, the heat of the oven, the first loaf coming out. Warm, unhurried, a little cinematic. Nothing that looks like a template.";
+const typedText=$('#typedText'),briefBox=$('#briefBox');
+function typeBrief(){
+  let i=0;
+  (function step(){
+    i++;typedText.textContent=BRIEF.slice(0,i);
+    if(i>=BRIEF.length){briefBox.classList.add('done');return}
+    const c=BRIEF[i-1];
+    setTimeout(step,/[.,]/.test(c)?260:18+Math.random()*34);
+  })();
+}
+if(reduce){typedText.textContent=BRIEF;briefBox.classList.add('done')}
+else new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){o.disconnect();typeBrief()}},{threshold:.55}).observe(briefBox);
+
+/* ---------- act 3: words become the world ---------- */
+const cv=$('#world'),cx=cv.getContext('2d'),clip=$('#clip'),caps=$$('.caps p');
+let cw=0,ch=0,dpr=1,N=0,tx,ty,sx,sy,sr,sg,sb,dl,sw,sceneC,imgData,built=false,lastP=-1,clipOK=false;
+function buildWorld(){
+  const W=cv.clientWidth,H=cv.clientHeight;if(!W||!H)return;
+  dpr=Math.min(devicePixelRatio||1,W<720?1.5:2);
+  dpr=Math.min(dpr,Math.sqrt(2.0e6/(W*H)));
+  cw=cv.width=Math.round(W*dpr);ch=cv.height=Math.round(H*dpr);
+  sceneC=document.createElement('canvas');sceneC.width=cw;sceneC.height=ch;
+  const sc=sceneC.getContext('2d');drawScene(sc,cw,ch,WORLDS[0]);
+  const sd=sc.getImageData(0,0,cw,ch).data;
+  // text mask
+  const tc=document.createElement('canvas');tc.width=cw;tc.height=ch;const t=tc.getContext('2d');
+  const fs=Math.round(clamp(W/21,19,44)*dpr),maxW=Math.min(W*.86,880)*dpr;
+  t.font=`italic 400 ${fs}px Georgia,"Iowan Old Style",serif`;t.fillStyle='#fff';t.textBaseline='middle';t.textAlign='center';
+  const words=BRIEF.split(' '),lines=[];let cur='';
+  words.forEach(w=>{const test=cur?cur+' '+w:w;if(t.measureText(test).width>maxW&&cur){lines.push(cur);cur=w}else cur=test});lines.push(cur);
+  const lh=fs*1.45,y0=ch/2-(lines.length-1)*lh/2;
+  lines.forEach((l,i)=>t.fillText(l,cw/2,y0+i*lh));
+  const td=t.getImageData(0,0,cw,ch).data,step=Math.max(1,Math.round(dpr*1.4));
+  let pts=[];
+  for(let y=0;y<ch;y+=step)for(let x=0;x<cw;x+=step)if(td[(y*cw+x)*4+3]>128)pts.push(x,y);
+  const cap=W<720?5200:11000;let n=pts.length/2;
+  if(n>cap){const keep=[];const stride=n/cap;for(let k=0;k<cap;k++){const j=Math.floor(k*stride)*2;keep.push(pts[j],pts[j+1])}pts=keep;n=cap}
+  N=n;tx=new Float32Array(N);ty=new Float32Array(N);sx=new Float32Array(N);sy=new Float32Array(N);
+  sr=new Uint8Array(N);sg=new Uint8Array(N);sb=new Uint8Array(N);dl=new Float32Array(N);sw=new Float32Array(N);
+  const r=rng(99);
+  const tIdx=[...Array(N).keys()].sort((a,b)=>(pts[a*2]*.5+pts[a*2+1])-(pts[b*2]*.5+pts[b*2+1]));
+  const sPts=[];for(let i=0;i<N;i++)sPts.push([r()*cw,r()*ch]);
+  sPts.sort((a,b)=>(a[0]*.5+a[1])-(b[0]*.5+b[1]));
+  for(let i=0;i<N;i++){
+    const ti=tIdx[i];tx[i]=pts[ti*2];ty[i]=pts[ti*2+1];
+    const [px_,py_]=sPts[i];sx[i]=px_;sy[i]=py_;
+    const o=((py_|0)*cw+(px_|0))*4;sr[i]=sd[o];sg[i]=sd[o+1];sb[i]=sd[o+2];
+    dl[i]=r();sw[i]=(r()-.5)*2;
+  }
+  imgData=new ImageData(cw,ch);built=true;lastP=-1;
+}
+function renderWorld(p){
+  if(!built)return;
+  const d=imgData.data;d.fill(0);
+  const sz0=1.5*dpr,sz1=4.6*dpr;
+  for(let i=0;i<N;i++){
+    const q=clamp((p-.10-dl[i]*.30)/.46),e=ease(q),arc=Math.sin(q*Math.PI)*sw[i]*.2;
+    const x=lerp(tx[i],sx[i],e)-(sy[i]-ty[i])*arc,y=lerp(ty[i],sy[i],e)+(sx[i]-tx[i])*arc;
+    const m=Math.sin(q*Math.PI)*.55;
+    const rr=(lerp(239,sr[i],e))*(1-m)+255*m,gg=(lerp(231,sg[i],e))*(1-m)+110*m,bb=(lerp(223,sb[i],e))*(1-m)+60*m;
+    const sz=Math.max(1,Math.round(lerp(sz0,sz1,e))),x0=Math.round(x)-(sz>>1),y0=Math.round(y)-(sz>>1);
+    for(let yy=0;yy<sz;yy++){const Y=y0+yy;if(Y<0||Y>=ch)continue;
+      for(let xx=0;xx<sz;xx++){const X=x0+xx;if(X<0||X>=cw)continue;
+        const o=(Y*cw+X)*4;d[o]=rr;d[o+1]=gg;d[o+2]=bb;d[o+3]=255}}
+  }
+  cx.globalAlpha=1;cx.putImageData(imgData,0,0);
+  const a=ease(clamp((p-.84)/.14));
+  if(clipOK){clip.style.opacity=ease(clamp((p-.5)/.3))}
+  else if(a>0){cx.globalAlpha=a;cx.drawImage(sceneC,0,0);cx.globalAlpha=1}
+  let c=p<.12?0:p<.84?1:2;caps.forEach((el,i)=>el.classList.toggle('on',i===c));
+}
+// optional generated clip: drop assets/act3.mp4 next to this file and it scrubs automatically
+if(/^https?:$/.test(location.protocol))fetch('assets/act3.mp4',{method:'HEAD'}).then(r=>{if(r.ok){clip.src='assets/act3.mp4';clip.addEventListener('loadeddata',()=>{clipOK=true;lastP=-1},{once:true})}}).catch(()=>{});
+
+/* ---------- act 4: lateral pan ---------- */
+const craft=$('#craft'),track=$('#track');
+function panCraft(){
+  if(reduce)return;
+  const r=craft.getBoundingClientRect(),p=clamp(-r.top/(r.height-innerHeight));
+  const dist=Math.max(0,track.scrollWidth-innerWidth);
+  track.style.transform=`translate3d(${-p*dist}px,0,0)`;
+}
+
+/* ---------- act 5: worlds ---------- */
+function drawWorlds(){
+  $$('.world canvas').forEach(c=>{
+    const d=Math.min(devicePixelRatio||1,2),w=c.clientWidth,h=c.clientHeight;if(!w)return;
+    c.width=Math.round(w*d);c.height=Math.round(h*d);
+    drawScene(c.getContext('2d'),c.width,c.height,WORLDS[+c.dataset.w]);
+  });
+}
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.2});
+$$('.world').forEach(el=>io.observe(el));
+
+/* ---------- main loop ---------- */
+const act3=$('#world-appears');
+let p3t=0,p3=0;
+function frame(){
+  // depth drift
+  if(!reduce){
+    px+=(tpx-px)*.06;py+=(tpy-py)*.06;
+    const sy_=Math.min(scrollY,innerHeight);
+    depthEls.forEach(el=>{const d=+el.dataset.depth;
+      el.style.transform=`translate3d(${(-px*28*d).toFixed(2)}px,${(-py*18*d+sy_*.06*d).toFixed(2)}px,0)`});
+  }
+  // act 3 progress
+  const r=act3.getBoundingClientRect();
+  p3t=reduce?1:clamp(-r.top/(r.height-innerHeight));
+  p3+=(p3t-p3)*(reduce?1:.14);if(Math.abs(p3t-p3)<.0005)p3=p3t;
+  if(Math.abs(p3-lastP)>.0004){lastP=p3;renderWorld(p3);
+    if(clipOK&&clip.duration&&!reduce)clip.currentTime=clamp(p3,0,.999)*clip.duration}
+  panCraft();
+  requestAnimationFrame(frame);
+}
+function layout(){buildWorld();drawWorlds();}
+let lastW=innerWidth,lastH=innerHeight,tm;
+addEventListener('resize',()=>{clearTimeout(tm);tm=setTimeout(()=>{
+  if(Math.abs(innerWidth-lastW)>1||Math.abs(innerHeight-lastH)>140){lastW=innerWidth;lastH=innerHeight;layout()}},200)});
+layout();requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
